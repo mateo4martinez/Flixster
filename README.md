@@ -26,6 +26,7 @@ The following **stretch** features are implemented:
 The following **additional** features are implemented:
 
 * [ ] List anything else that you can get done to improve the app functionality!
+* [ ] I can try making the adapter faster by it not needing to refresh itself every time.
 
 ## Video Walkthrough
 
