@@ -1,21 +1,31 @@
 package com.example.flixster.models;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flixster.R;
+import com.google.android.youtube.player.YouTubeBaseActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.parceler.Parcels;
 
-public class MovieDetailsActivity extends AppCompatActivity {
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import okhttp3.Headers;
+
+public class MovieDetailsActivity extends YouTubeBaseActivity {
+
+    public static final String VIDEO_URL = "https://api.themoviedb.org/3/movie/%d/videos?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
     // the movie for display
     Movie movie;
@@ -25,6 +35,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
     TextView tvOverview;
     RatingBar rbVoteAverage;
     ImageView detPoster;
+
+    // key
+    String key;
+    public static String KEY_TITLE= "key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +62,35 @@ public class MovieDetailsActivity extends AppCompatActivity {
         float voteAverage = movie.getVoteAverage().floatValue();
         rbVoteAverage.setRating(voteAverage / 2.0f);
 
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(String.format(VIDEO_URL, movie.getId()), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d("Youtube API Call", "onSuccess");
+                try {
+                    JSONArray results = json.jsonObject.getJSONArray("results");
+                    if (results.length() == 0)
+                        return;
+                    key = results.getJSONObject(0).getString("key");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d("FAILURE", "onFailure");
+            }
+        });
+
         // Set the image and get context
         Context context = getApplicationContext();
         String imageUrl;
         int placeholderKey;
+
+        int radius = 50;
+        int margin = 0;
 
         if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // then imageUrl = back drop image
@@ -63,6 +102,17 @@ public class MovieDetailsActivity extends AppCompatActivity {
             placeholderKey = R.drawable.placeholder;
         }
 
-        Glide.with(context).load(imageUrl).placeholder(placeholderKey).into(detPoster);
+        Glide.with(context).load(imageUrl).transform(new RoundedCornersTransformation(radius, margin)).placeholder(placeholderKey).into(detPoster);
+
+        detPoster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MovieTrailerActivity.class);
+
+                intent.putExtra(KEY_TITLE, key);
+
+                startActivity(intent);
+            }
+        });
     }
 }

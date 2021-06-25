@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".models.MovieDetailsActivity">
+    tools:context=".models.MovieDetailsActivity"
+    android:background="#CBC3E3" >
 
     <TextView
         android:id="@+id/tvTitle"
@@ -20,7 +21,9 @@
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:layout_toEndOf="@+id/detPoster"
-        android:textAppearance="@android:style/TextAppearance.Large" />
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textColor="@color/purple_700"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvOverview"
@@ -34,7 +37,8 @@
         android:layout_marginTop="2dp"
         android:layout_marginRight="8dp"
         android:textSize="20sp"
-        tools:text="sample text" />
+        tools:text="sample text"
+        android:textColor="@color/black"/>
 
     <RatingBar
         android:id="@+id/rbVoteAverage"
@@ -43,7 +47,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="11dp"
-        android:layout_marginEnd="10dp" />
+        android:layout_marginEnd="10dp"
+        android:outlineAmbientShadowColor="@color/purple_500"
+        android:outlineSpotShadowColor="@color/purple_500"
+        android:progressTint="#FFD700"/>
 
     <ImageView
         android:id="@+id/detPoster"

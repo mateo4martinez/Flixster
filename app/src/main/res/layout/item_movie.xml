@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
+        android:adjustViewBounds="true"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -26,6 +27,8 @@
         android:layout_marginEnd="47dp"
         android:layout_toEndOf="@+id/ivPoster"
         android:textSize="24sp"
+        android:textColor="@color/purple_700"
+        android:textStyle="bold"
         tools:text="Fast and furious presents: Hobbs Shaw" />
 
     <TextView
@@ -38,6 +41,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="4dp"
         android:layout_toEndOf="@+id/ivPoster"
+        android:textColor="@color/black"
         tools:text="this is ample text ahhhhh erneiornoiernio mimipwmpimwipebmwpi ineripgnipwetnb " />
 
 </RelativeLayout>
